@@ -11,11 +11,13 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Peliculas en cine'),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search_outlined))],
       ),
-      body: Column(
-        children: const [
-          CardWiper()
-
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: const [
+            CardWiper(),
+            SliderMovie(),
+          ],
+        ),
       )
     );
   }
