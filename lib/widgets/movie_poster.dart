@@ -7,19 +7,11 @@ class MoviePoster extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 20,
-        itemBuilder: ( _, int index) {
-          return Container(
-            width: 130,
-            height: 190,
-            color: Colors.green,
-            margin: const EdgeInsets.all(10),
-          );
-        },
-      ),
+    return Container(
+      width: 130,
+      height: 190,
+      color: Colors.green,
+      margin: const EdgeInsets.all(10),
     );
   }
 }

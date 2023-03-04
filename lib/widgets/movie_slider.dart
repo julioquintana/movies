@@ -12,12 +12,20 @@ class SliderMovie extends StatelessWidget {
       color: Colors.red,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Padding(
+        children:  [
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text('populares', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
-          MoviePoster()
+        Expanded(
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 20,
+            itemBuilder: ( _, int index) {
+              return const MoviePoster();
+            },
+          ),
+        ),
         ],
       ),
     );
