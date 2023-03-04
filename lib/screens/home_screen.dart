@@ -16,6 +16,9 @@ class HomeScreen extends StatelessWidget {
           children: const [
             CardWiper(),
             SliderMovie(),
+            SliderMovie(),
+            SliderMovie(),
+            SliderMovie(),
           ],
         ),
       )

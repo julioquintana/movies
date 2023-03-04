@@ -6,10 +6,9 @@ class SliderMovie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      height: 250,
-      color: Colors.red,
+      height: 260,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children:  [
@@ -17,6 +16,7 @@ class SliderMovie extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Text('populares', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
+        const SizedBox(height: 5),
         Expanded(
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
