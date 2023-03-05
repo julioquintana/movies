@@ -6,7 +6,7 @@ import 'package:provider/single_child_widget.dart';
 class Providers {
   static List<SingleChildWidget> provider(BuildContext context) {
     return [
-      ChangeNotifierProvider<MoviesProvider>(create: (_) => MoviesProvider()),
+      ChangeNotifierProvider<MoviesProvider>(create: (_) => MoviesProvider(), lazy: false,),
     ];
   }
 }
