@@ -4,7 +4,8 @@ import 'package:movies/widgets/widgets.dart' show MoviePoster;
 
 class SliderMovie extends StatelessWidget {
   final List<Movie> movies;
-  const SliderMovie({Key? key, required this.movies}) : super(key: key);
+  final String? title;
+  const SliderMovie({Key? key, required this.movies, this.title='Populares'}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +16,9 @@ class SliderMovie extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children:  [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Text('populares', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(title!, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ),
         const SizedBox(height: 5),
         Expanded(
