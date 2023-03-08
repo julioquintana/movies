@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:movies/model/movies.dart';
 
 class MoviePoster extends StatelessWidget {
+  final Movie movie;
+
   const MoviePoster({
     super.key,
+    required this.movie,
   });
 
   @override
@@ -17,9 +21,9 @@ class MoviePoster extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, 'details', arguments: 'Movie instance'),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: const FadeInImage(
-                placeholder: AssetImage('assets/image/no-image.jpg'),
-                image: NetworkImage('https://loremflickr.com/300/400'),
+              child: FadeInImage(
+                placeholder: const AssetImage('assets/image/no-image.jpg'),
+                image: NetworkImage(movie.fullUrlPoster()),
                 fit: BoxFit.cover,
                 width: 130,
                 height: 190,
@@ -27,8 +31,8 @@ class MoviePoster extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          const Text(
-            'Starwars, El retorno de nuevo Jedi Silverstre de Monte Cristo',
+          Text(
+            movie.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,

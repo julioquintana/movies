@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class Movies {
-  Movies({
+class Movie {
+  Movie({
     required this.adult,
     this.backdropPath,
     required this.genreIds,
@@ -33,17 +33,17 @@ class Movies {
   double voteAverage;
   int voteCount;
 
-  factory Movies.fromRawJson(String str) => Movies.fromJson(json.decode(str));
+  factory Movie.fromRawJson(String str) => Movie.fromJson(json.decode(str));
 
-  factory Movies.fromJson(Map<String, dynamic> json) => Movies(
+  factory Movie.fromJson(Map<String, dynamic> json) => Movie(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
         originalLanguage: json["original_language"],
         originalTitle: json["original_title"],
-        overview: json["overview"],
         popularity: json["popularity"]?.toDouble(),
+        overview: json["overview"],
         posterPath: json["poster_path"],
         releaseDate: json["release_date"],
         title: json["title"],
@@ -56,4 +56,9 @@ class Movies {
   String toString() {
     return 'Movies{adult: $adult, backdropPath: $backdropPath, genreIds: $genreIds, id: $id, originalLanguage: $originalLanguage, originalTitle: $originalTitle, overview: $overview, popularity: $popularity, posterPath: $posterPath, releaseDate: $releaseDate, title: $title, video: $video, voteAverage: $voteAverage, voteCount: $voteCount}';
   }
+
+  String fullUrlPoster() {
+    return (posterPath != null) ? 'https://image.tmdb.org/t/p/w500/$posterPath' : 'https://i.stack.imgur.com/GNhxO.png';
+  }
+
 }

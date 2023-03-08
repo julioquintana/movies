@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'models.dart';
 
 class NowPlayingResponse {
-  Dates dates;
+  Dates? dates;
   int page;
-  List<Movies> results;
+  List<Movie> results;
   int totalPages;
   int totalResults;
 
@@ -18,13 +18,15 @@ class NowPlayingResponse {
 
   factory NowPlayingResponse.fromRawJson(String str) => NowPlayingResponse.fromJson(json.decode(str));
 
-  factory NowPlayingResponse.fromJson(Map<String, dynamic> json) => NowPlayingResponse(
-        dates: Dates.fromJson(json["dates"]),
-        page: json["page"],
-        results: List<Movies>.from(json["results"].map((x) => Movies.fromJson(x))),
-        totalPages: json["total_pages"],
-        totalResults: json["total_results"],
-      );
+  factory NowPlayingResponse.fromJson(Map<String, dynamic> json) {
+    return NowPlayingResponse(
+      dates: Dates.fromJson(json["dates"]),
+      page: json["page"],
+      results: List<Movie>.from(json["results"].map((x) => Movie.fromJson(x))),
+      totalPages: json["total_pages"],
+      totalResults: json["total_results"],
+    );
+  }
 
   @override
   String toString() {
@@ -47,4 +49,9 @@ class Dates {
         maximum: DateTime.parse(json["maximum"]),
         minimum: DateTime.parse(json["minimum"]),
       );
+
+  @override
+  String toString() {
+    return 'Dates{maximum: $maximum, minimum: $minimum}';
+  }
 }
