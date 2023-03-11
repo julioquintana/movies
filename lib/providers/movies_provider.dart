@@ -11,6 +11,8 @@ class MoviesProvider extends ChangeNotifier {
   int nowPlayingPage = 0;
   int popularPage = 0;
 
+  Map<int, List<Cast>> _castList = {};
+
   MoviesProvider() {
     print('Movies provider done');
     getNowPlaying();
@@ -46,5 +48,24 @@ class MoviesProvider extends ChangeNotifier {
       print('Request failed with status: ${response.statusCode}.');
     }
     return <Movie>[];
+  }
+
+  Future<List<Cast>> getMovieCast(int movieId) async {
+    if (_castList.containsKey(movieId)) return _castList[movieId]!.toList();
+
+    print('buscando en la api');
+    var url = Uri.https(_baseUrl, '/3/movie/$movieId/credits', {'language': _language, 'api_key': _apiKey});
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var respose = CreditsResponse.fromRawJson(response.body.toString()).cast;
+      _castList[movieId] = respose;
+
+      return respose;
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+    return <Cast>[];
   }
 }

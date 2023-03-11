@@ -66,8 +66,6 @@ class Cast {
     character: json["character"],
     creditId: json["credit_id"],
     order: json["order"],
-    department: json["department"]!,
-    job: json["job"],
   );
   String fullProfilePath() {
     return (profilePath != null) ? 'https://image.tmdb.org/t/p/w500/$profilePath' : 'https://i.stack.imgur.com/GNhxO.png';

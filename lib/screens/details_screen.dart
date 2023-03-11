@@ -20,7 +20,7 @@ class DetailsScreen extends StatelessWidget {
           delegate: SliverChildListDelegate([
             _PosterAndTitle(movie: movie),
             _Overview(movie: movie),
-            const CastingCard(),
+            CastingCard(movieId: movie.id),
           ]),
         )
       ],
@@ -48,7 +48,11 @@ class _CustomAppBar extends StatelessWidget {
           width: double.infinity,
           color: Colors.black12,
           padding: const EdgeInsets.only(bottom: 5, left: 10, right: 10),
-          child: Text(movie.title, style: const TextStyle(fontSize: 16), textAlign: TextAlign.center,),
+          child: Text(
+            movie.title,
+            style: const TextStyle(fontSize: 16),
+            textAlign: TextAlign.center,
+          ),
         ),
         background: FadeInImage(
             placeholder: const AssetImage('assets/image/loading.gif'),

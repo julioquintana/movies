@@ -61,7 +61,7 @@ class Movie {
     return (posterPath != null) ? 'https://image.tmdb.org/t/p/w500/$posterPath' : 'https://i.stack.imgur.com/GNhxO.png';
   }
   String fullUrlBackdropPath() {
-    return (posterPath != null) ? 'https://image.tmdb.org/t/p/w500/$backdropPath' : 'https://i.stack.imgur.com/GNhxO.png';
+    return (backdropPath != null) ? 'https://image.tmdb.org/t/p/w500/$backdropPath' : 'https://i.stack.imgur.com/GNhxO.png';
   }
 
 }
