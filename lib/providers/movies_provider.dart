@@ -36,8 +36,6 @@ class MoviesProvider extends ChangeNotifier {
 
   _getMovies(String type, int page) async {
     print({type, page});
-    // This example uses the Google Books API to search for books about http.
-    // https://developers.google.com/books/docs/overview
     var url = Uri.https(_baseUrl, '/3/movie/$type', {'language': _language, 'api_key': _apiKey, 'page': '$page'});
 
     // Await the http get response, then decode the json-formatted response.
@@ -67,5 +65,20 @@ class MoviesProvider extends ChangeNotifier {
       print('Request failed with status: ${response.statusCode}.');
     }
     return <Cast>[];
+  }
+
+  Future<List<Movie>> searchMovies(String query) async {
+    print({query});
+
+    var url = Uri.https(_baseUrl, '/3/search/movie', {'language': _language, 'api_key': _apiKey, 'query': query});
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      return SearchResponse.fromRawJson(response.body.toString()).results;
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+    return <Movie>[];
   }
 }
