@@ -4,6 +4,7 @@ import 'package:movies/model/models.dart';
 
 class CardWiper extends StatelessWidget {
   final List<Movie> movies;
+
   const CardWiper({Key? key, required this.movies}) : super(key: key);
 
   @override
@@ -20,12 +21,15 @@ class CardWiper extends StatelessWidget {
         itemBuilder: (_, int index) {
           return GestureDetector(
             onTap: () => Navigator.pushNamed(context, 'details', arguments: movies[index]),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child:  FadeInImage(
-                placeholder: const AssetImage('assets/image/loading.gif'),
-                image: NetworkImage(movies[index].fullUrlPoster()),
-                fit: BoxFit.cover,
+            child: Hero(
+              tag: movies[index].heroId!,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: FadeInImage(
+                  placeholder: const AssetImage('assets/image/loading.gif'),
+                  image: NetworkImage(movies[index].fullUrlPoster()),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           );

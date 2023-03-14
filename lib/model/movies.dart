@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 class Movie {
   Movie({
@@ -16,6 +17,7 @@ class Movie {
     required this.video,
     required this.voteAverage,
     required this.voteCount,
+    this.heroId,
   });
 
   bool adult;
@@ -32,6 +34,7 @@ class Movie {
   bool video;
   double voteAverage;
   int voteCount;
+  String? heroId;
 
   factory Movie.fromRawJson(String str) => Movie.fromJson(json.decode(str));
 
@@ -50,6 +53,7 @@ class Movie {
         video: json["video"],
         voteAverage: json["vote_average"]?.toDouble(),
         voteCount: json["vote_count"],
+        heroId: '${Random().nextInt(1000000)}-${json["id"]}',
       );
 
   @override
@@ -60,8 +64,10 @@ class Movie {
   String fullUrlPoster() {
     return (posterPath != null) ? 'https://image.tmdb.org/t/p/w500/$posterPath' : 'https://i.stack.imgur.com/GNhxO.png';
   }
-  String fullUrlBackdropPath() {
-    return (backdropPath != null) ? 'https://image.tmdb.org/t/p/w500/$backdropPath' : 'https://i.stack.imgur.com/GNhxO.png';
-  }
 
+  String fullUrlBackdropPath() {
+    return (backdropPath != null)
+        ? 'https://image.tmdb.org/t/p/w500/$backdropPath'
+        : 'https://i.stack.imgur.com/GNhxO.png';
+  }
 }

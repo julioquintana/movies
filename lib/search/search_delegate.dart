@@ -59,11 +59,14 @@ class _MovieItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: FadeInImage(
-          width: 50,
-          placeholder: const AssetImage('assets/image/no-image.jpg'),
-          image: NetworkImage(movie.fullUrlPoster()),
-          fit: BoxFit.contain),
+      leading: Hero(
+        tag: movie.heroId!,
+        child: FadeInImage(
+            width: 50,
+            placeholder: const AssetImage('assets/image/no-image.jpg'),
+            image: NetworkImage(movie.fullUrlPoster()),
+            fit: BoxFit.contain),
+      ),
       title: Text(movie.title),
       subtitle: Text(movie.originalTitle),
       onTap: () => Navigator.pushNamed(context, 'details', arguments: movie),
