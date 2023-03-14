@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:movies/helpers/debouncer.dart';
 import 'package:movies/model/models.dart';
 
 class MoviesProvider extends ChangeNotifier {
@@ -13,8 +16,13 @@ class MoviesProvider extends ChangeNotifier {
 
   Map<int, List<Cast>> _castList = {};
 
+  final debouncer = Debouncer(duration: const Duration(milliseconds: 500));
+
+  final StreamController<List<Movie>> _suggestionStreamController = StreamController.broadcast();
+
+  Stream<List<Movie>> get suggestionStream => _suggestionStreamController.stream;
+
   MoviesProvider() {
-    print('Movies provider done');
     getNowPlaying();
     getPopulares();
   }
@@ -51,16 +59,15 @@ class MoviesProvider extends ChangeNotifier {
   Future<List<Cast>> getMovieCast(int movieId) async {
     if (_castList.containsKey(movieId)) return _castList[movieId]!.toList();
 
-    print('buscando en la api');
     var url = Uri.https(_baseUrl, '/3/movie/$movieId/credits', {'language': _language, 'api_key': _apiKey});
 
     // Await the http get response, then decode the json-formatted response.
     var response = await http.get(url);
     if (response.statusCode == 200) {
-      var respose = CreditsResponse.fromRawJson(response.body.toString()).cast;
-      _castList[movieId] = respose;
+      var castResponse = CreditsResponse.fromRawJson(response.body.toString()).cast;
+      _castList[movieId] = castResponse;
 
-      return respose;
+      return castResponse;
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -68,8 +75,6 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future<List<Movie>> searchMovies(String query) async {
-    print({query});
-
     var url = Uri.https(_baseUrl, '/3/search/movie', {'language': _language, 'api_key': _apiKey, 'query': query});
 
     // Await the http get response, then decode the json-formatted response.
@@ -80,5 +85,18 @@ class MoviesProvider extends ChangeNotifier {
       print('Request failed with status: ${response.statusCode}.');
     }
     return <Movie>[];
+  }
+
+  void getSuggestionsByQuery(String query) {
+    debouncer.value = '';
+    debouncer.onValue = (value) async {
+      final results = await searchMovies(value);
+      _suggestionStreamController.add(results);
+    };
+
+    final timer = Timer.periodic(const Duration(milliseconds: 300), (_) {
+      debouncer.value = query;
+    });
+    Future.delayed(const Duration(milliseconds: 301)).then((_) => timer.cancel());
   }
 }
