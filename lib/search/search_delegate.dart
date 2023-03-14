@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies/model/models.dart';
 import 'package:movies/providers/movies_provider.dart';
+import 'package:movies/screens/screens.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/widgets.dart';
@@ -24,26 +25,17 @@ class MovieSearchDelegate extends SearchDelegate {
     if (query.isEmpty) return const SuggestionsEmpty();
 
     final movieProvider = Provider.of<MoviesProvider>(context, listen: false);
-    movieProvider.getSuggestionsByQuery(query);
 
-    return StreamBuilder<List<Movie>>(
-        initialData: const [],
-        stream: movieProvider.suggestionStream,
-        builder: (_, AsyncSnapshot<List<Movie>> snapshot) {
-          if (!snapshot.hasData) const SuggestionsEmpty();
-          final movies = snapshot.data!;
-
-          return ListView.builder(
-            itemCount: movies.length,
-            padding: const EdgeInsets.all(8),
-            itemBuilder: (_, int index) {
-              return Container(
-                height: 60,
-                margin: const EdgeInsets.only(bottom: 9),
-                child: _MovieItem(movies[index]),
-              );
-            },
-          );
+    return FutureBuilder<List<Movie>>(
+        future: movieProvider.searchMovies(query),
+        builder: (_, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SuggestionsEmpty();
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            return SearchResult(movies: snapshot.data!);
+          }
         });
   }
 
