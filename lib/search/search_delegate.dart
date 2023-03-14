@@ -31,7 +31,7 @@ class MovieSearchDelegate extends SearchDelegate {
     final movieProvider = Provider.of<MoviesProvider>(context, listen: false);
     return FutureBuilder<List<Movie>>(
         future: movieProvider.searchMovies(query),
-        initialData: [],
+        initialData: const [],
         builder: (_, AsyncSnapshot<List<Movie>> snapshot) {
           if (!snapshot.hasData) const SuggestionsEmpty();
           final movies = snapshot.data!;
